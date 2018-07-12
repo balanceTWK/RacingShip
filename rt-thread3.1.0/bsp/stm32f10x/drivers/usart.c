@@ -33,20 +33,24 @@
 #define UART1_GPIO_RX        GPIO_Pin_7
 #define UART1_GPIO           GPIOB
 
-/* USART2 */
-#define UART2_GPIO_TX        GPIO_Pin_2
-#define UART2_GPIO_RX        GPIO_Pin_3
-#define UART2_GPIO           GPIOA
+///* USART2 */
+//#define UART2_GPIO_TX        GPIO_Pin_2
+//#define UART2_GPIO_RX        GPIO_Pin_3
+//#define UART2_GPIO           GPIOA
 
+///* USART3_REMAP[1:0] = 00 */
+//#define UART3_GPIO_TX        GPIO_Pin_10
+//#define UART3_GPIO_RX        GPIO_Pin_11
+//#define UART3_GPIO           GPIOB
 /* USART3_REMAP[1:0] = 00 */
 #define UART3_GPIO_TX        GPIO_Pin_10
 #define UART3_GPIO_RX        GPIO_Pin_11
-#define UART3_GPIO           GPIOB
+#define UART3_GPIO           GPIOC
 
-/* USART4 */
-#define UART4_GPIO_TX        GPIO_Pin_10
-#define UART4_GPIO_RX        GPIO_Pin_11
-#define UART4_GPIO           GPIOC
+///* USART4 */
+//#define UART4_GPIO_TX        GPIO_Pin_10
+//#define UART4_GPIO_RX        GPIO_Pin_11
+//#define UART4_GPIO           GPIOC
 
 
 /* STM32 uart driver */
@@ -453,7 +457,7 @@ static void RCC_Configuration(void)
 
 #if defined(RT_USING_UART3)
     /* Enable UART GPIO clocks */
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);
     /* Enable UART clock */
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 #endif /* RT_USING_UART3 */
@@ -499,6 +503,9 @@ static void GPIO_Configuration(void)
 
 #if defined(RT_USING_UART3)
     /* Configure USART Rx/tx PIN */
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC|RCC_APB2Periph_AFIO,ENABLE);
+    GPIO_PinRemapConfig(GPIO_PartialRemap_USART3,ENABLE);
+    
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Pin = UART3_GPIO_RX;
     GPIO_Init(UART3_GPIO, &GPIO_InitStructure);

@@ -67,96 +67,22 @@ u16 adc_average(rt_uint8_t ch, rt_uint8_t times)
         temp_val += Get_Adc(ch);
         rt_thread_mdelay(50);
     }
-    rt_kprintf("adc_Average:%d\n",temp_val / times);
+    rt_kprintf("adc_average:%d\n",temp_val / times);
     adcx=temp_val / times;
 
     temp=(float)adcx*(3.3/4096)*(8.4);
     adcx=temp;
     rt_kprintf("volt:%d.",adcx);
-//	LCD_ShowxNum(156,150,adcx,1,16,0);//显示电压值
     temp-=adcx;
     adcx=temp*1000;
-    rt_kprintf("%d\n",adcx);
+    rt_kprintf("%d | ",adcx);
     
     temp=(float)adcx*(3.3/4096);
     adcx=temp;
-    rt_kprintf("volt:%d.",adcx);
-//	LCD_ShowxNum(156,150,adcx,1,16,0);//显示电压值
+    rt_kprintf("%d.",adcx);
     temp-=adcx;
     adcx=temp*1000;
     rt_kprintf("%d\n",adcx);
-//		LCD_ShowxNum(172,150,temp,3,16,0X80);
     return temp_val / times;
 }
-FINSH_FUNCTION_EXPORT(adc_average, adc);
-
-
-void rt_volt_thread_entry(void *parameter)
-{
-    rt_uint32_t temp_val = 0;
-    rt_uint8_t t;
-    float temp;
-    rt_uint16_t adcx;
-    while(1)
-    {
-
-    for (t = 0; t < 5; t++)
-    {
-        temp_val += Get_Adc(7);
-        rt_thread_mdelay(50);
-    }
-    rt_kprintf("\n     I_adc_Average:%d\n",temp_val / 5);
-    adcx=temp_val / 5;
-//2A  1111
-//1A  1208
-//0A  1300
-//-1A 1397
-//-2A 1511
-    temp=(float)adcx*(3.3/4096);
-    adcx=temp;
-    rt_kprintf("i_volt:%d.",adcx);
-//	LCD_ShowxNum(156,150,adcx,1,16,0);//显示电压值
-    temp-=adcx;
-    adcx=temp*1000;
-    rt_kprintf("%d\n",adcx);
-//		LCD_ShowxNum(172,150,temp,3,16,0X80);
-    adcx=0;
-    temp_val=0;
-    temp=0;
-    
-    for (t = 0; t < 5; t++)
-    {
-        temp_val += Get_Adc(6);
-        rt_thread_mdelay(50);
-    }
-    rt_kprintf("\nadc_Average:%d\n",temp_val / 5);
-    adcx=temp_val / 5;
-
-    temp=(float)adcx*(3.3/4096)*(8.4);
-    adcx=temp;
-    rt_kprintf("bat_volt:%d.",adcx);
-//	LCD_ShowxNum(156,150,adcx,1,16,0);//显示电压值
-    temp-=adcx;
-    adcx=temp*1000;
-    rt_kprintf("%d\n",adcx);
-//		LCD_ShowxNum(172,150,temp,3,16,0X80);
-    adcx=0;
-    temp_val=0;
-    temp=0;
-        rt_thread_mdelay(500);
-    }
-}
-
-int rt_volt_app_init(void)
-{
-    rt_thread_t tid;
-
-    tid = rt_thread_create("volt",
-                           rt_volt_thread_entry, 0,
-                           512, RT_THREAD_PRIORITY_MAX / 3 - 1, 20);
-    if (tid != RT_NULL) rt_thread_startup(tid);
-    return 0;
-}
-
-INIT_APP_EXPORT(rt_volt_app_init);
-
+FINSH_FUNCTION_EXPORT(adc_average, example: adc_average(0,5) | 0->select adc channel;5->adc acquisition times .);

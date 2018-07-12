@@ -136,7 +136,7 @@ int rt_application_init(void)
 {
     rt_thread_t init_thread;
 
-    rt_err_t result;
+//    rt_err_t result;
 
 //    /* init led thread */
 //    result = rt_thread_init(&led_thread,
