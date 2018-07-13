@@ -3,21 +3,34 @@
 #include <board.h>
 #include "adc.h"
 #include "wireless_app.h"
+        
+    // 2A   1111
+    // 1A   1208
+    // 0A   1300
+    //-1A   1397
+    //-2A   1511
 
 rt_bool_t DebugFlag=0;
 
 void rt_volt_thread_entry(void *parameter)
 {
     rt_uint32_t temp_val = 0;
-    rt_uint8_t t;
+    rt_uint8_t i;
+    rt_uint8_t sendbuff[10];
     float temp;
     rt_uint16_t adcx;
     rt_int16_t current;
+
+    sendbuff[0]=0x5A;
+    sendbuff[1]=0xA5;
+    sendbuff[8]=0xAE;
+    sendbuff[9]=0xEA;
+    
     while(1)
     {
     if(DebugFlag)
     {
-        for (t = 0; t < 5; t++)
+        for (i = 0; i < 5; i++)
         {
             temp_val += Get_Adc(7);
             rt_thread_mdelay(50);
@@ -45,19 +58,13 @@ void rt_volt_thread_entry(void *parameter)
         current=current%10;
         current=__fabs(current);
         rt_kprintf("%d\033[0m\n",current);
-        
-    // 2A   1111
-    // 1A   1208
-    // 0A   1300
-    //-1A   1397
-    //-2A   1511
 
         current=0;
         adcx=0;
         temp_val=0;
         temp=0;
         
-        for (t = 0; t < 5; t++)
+        for (i = 0; i < 5; i++)
         {
             temp_val += Get_Adc(6);
             rt_thread_mdelay(10);
@@ -78,21 +85,19 @@ void rt_volt_thread_entry(void *parameter)
     }
     else
     {
-        wireless_putchar(0x5a);
-        wireless_putchar(0xa5);
-        for (t = 0; t < 5; t++)
+        for (i = 0; i < 5; i++)
         {
             temp_val += Get_Adc(7);
             rt_thread_mdelay(10);
         }
         adcx=temp_val / 5;
         current=adcx-1300;
-        wireless_putchar((rt_uint8_t)(current>>8));
-        wireless_putchar((rt_uint8_t)current);
+        sendbuff[2]=(rt_uint8_t)(current>>8);
+        sendbuff[3]=(rt_uint8_t)current;
 
         temp_val=0;
         
-        for (t = 0; t < 5; t++)
+        for (i = 0; i < 5; i++)
         {
             temp_val += Get_Adc(6);
             rt_thread_mdelay(10);
@@ -101,13 +106,21 @@ void rt_volt_thread_entry(void *parameter)
 
         temp=(float)adcx*(3.3/4096)*(8.4);
         adcx=temp*10;
-        wireless_putchar((rt_uint8_t)adcx>>8);
-        wireless_putchar((rt_uint8_t)adcx);
+        sendbuff[4]=(rt_uint8_t)(adcx>>8);
+        sendbuff[5]=(rt_uint8_t)adcx;
 
-        current=current+adcx;
-        wireless_putchar((rt_uint8_t)current>>8);
-        wireless_putchar((rt_uint8_t)current);
+        adcx=0;
+        for( i=0;i<4;i++)
+        {
+            adcx+=sendbuff[i+2];
+        }
+        sendbuff[6]=(rt_uint8_t)(adcx>>8);
+        sendbuff[7]=(rt_uint8_t)adcx;
         
+        for( i=0;i<10;i++)
+        {
+            wireless_putchar(sendbuff[i]);
+        }
         temp_val=0;
         
 //        rt_thread_mdelay(5);
