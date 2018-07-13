@@ -69,20 +69,22 @@ u16 adc_average(rt_uint8_t ch, rt_uint8_t times)
     }
     rt_kprintf("adc_average:%d\n",temp_val / times);
     adcx=temp_val / times;
-
-    temp=(float)adcx*(3.3/4096)*(8.4);
+    
+    temp=(float)adcx*(3.3/4096);
     adcx=temp;
     rt_kprintf("volt:%d.",adcx);
     temp-=adcx;
     adcx=temp*1000;
     rt_kprintf("%d | ",adcx);
     
-    temp=(float)adcx*(3.3/4096);
+    adcx=temp_val / times;
+    temp=(float)adcx*(3.3/4096)*(8.4);
     adcx=temp;
     rt_kprintf("%d.",adcx);
     temp-=adcx;
     adcx=temp*1000;
     rt_kprintf("%d\n",adcx);
+
     return temp_val / times;
 }
 FINSH_FUNCTION_EXPORT(adc_average, example: adc_average(0,5) | 0->select adc channel;5->adc acquisition times .);

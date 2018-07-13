@@ -16,15 +16,13 @@ void rt_volt_thread_entry(void *parameter)
 {
     rt_uint32_t temp_val = 0;
     rt_uint8_t i;
-    rt_uint8_t sendbuff[10];
+    rt_uint8_t sendbuff[7];
     float temp;
     rt_uint16_t adcx;
     rt_int16_t current;
 
     sendbuff[0]=0x5A;
-    sendbuff[1]=0xA5;
-    sendbuff[8]=0xAE;
-    sendbuff[9]=0xEA;
+    sendbuff[6]=0xA5;
     
     while(1)
     {
@@ -92,8 +90,8 @@ void rt_volt_thread_entry(void *parameter)
         }
         adcx=temp_val / 5;
         current=adcx-1300;
-        sendbuff[2]=(rt_uint8_t)(current>>8);
-        sendbuff[3]=(rt_uint8_t)current;
+        sendbuff[1]=(rt_uint8_t)(current>>8);
+        sendbuff[2]=(rt_uint8_t)current;
 
         temp_val=0;
         
@@ -106,18 +104,17 @@ void rt_volt_thread_entry(void *parameter)
 
         temp=(float)adcx*(3.3/4096)*(8.4);
         adcx=temp*10;
-        sendbuff[4]=(rt_uint8_t)(adcx>>8);
-        sendbuff[5]=(rt_uint8_t)adcx;
+        sendbuff[3]=(rt_uint8_t)(adcx>>8);
+        sendbuff[4]=(rt_uint8_t)adcx;
 
         adcx=0;
-        for( i=0;i<4;i++)
+        for( i=1;i<5;i++)
         {
-            adcx+=sendbuff[i+2];
+            adcx+=sendbuff[i];
         }
-        sendbuff[6]=(rt_uint8_t)(adcx>>8);
-        sendbuff[7]=(rt_uint8_t)adcx;
+        sendbuff[5]=(rt_uint8_t)adcx;
         
-        for( i=0;i<10;i++)
+        for( i=0;i<7;i++)
         {
             wireless_putchar(sendbuff[i]);
         }
@@ -152,7 +149,10 @@ void master_thread_entry(void *parameter)
     {
         rt_kprintf("uart3 open error.\n");
     }
-    wireless_putstring(" wireless is working.\n");
+    wireless_putstring("\r\n\r\nwireless is working.\r\n");
+    wireless_putstring("\r\nApplication Author : layiketang.");
+    wireless_putstring("\r\nPCBLAYOUT   Author : xiaoluobo.");
+    wireless_putstring("\r\n           College : DHKXJSXY.\r\n\r\n");
 	rt_thread_delay(rt_tick_from_millisecond(50));
     tid = rt_thread_create("volt",
                            rt_volt_thread_entry, 0,
