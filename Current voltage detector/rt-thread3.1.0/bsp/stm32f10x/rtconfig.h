@@ -76,6 +76,8 @@
 
 /* SECTION: finsh, a C-Express shell */
 #define RT_USING_FINSH
+//#define FINSH_USING_MSH
+#define FINSH_USING_HISTORY
 /* Using symbol table */
 #define FINSH_USING_SYMTAB
 #define FINSH_USING_DESCRIPTION

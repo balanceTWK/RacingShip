@@ -130,7 +130,7 @@ int rt_volt_app_init(void)
 {
     rt_thread_t tid;
 
-    tid = rt_thread_create("volt",
+    tid = rt_thread_create("App_1",
                            rt_volt_thread_entry, 0,
                            512, RT_THREAD_PRIORITY_MAX / 3 - 1, 20);
     if (tid != RT_NULL) rt_thread_startup(tid);
@@ -143,7 +143,6 @@ int rt_volt_app_init(void)
 
 void master_thread_entry(void *parameter)
 {
-    rt_thread_t tid;
     /* ´ò¿ª´®¿Ú */
     if (wireless_open("uart3") != RT_EOK)
     {
@@ -154,10 +153,7 @@ void master_thread_entry(void *parameter)
     wireless_putstring("\r\nPCBLAYOUT   Author : xiaoluobo.");
     wireless_putstring("\r\n           College : DHKXJSXY.\r\n\r\n");
 	rt_thread_delay(rt_tick_from_millisecond(50));
-    tid = rt_thread_create("volt",
-                           rt_volt_thread_entry, 0,
-                           512, RT_THREAD_PRIORITY_MAX / 3 - 1, 20);
-    if (tid != RT_NULL) rt_thread_startup(tid);
+    rt_volt_app_init();
 }
 
 int master_init(void)
