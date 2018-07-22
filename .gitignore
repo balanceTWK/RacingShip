@@ -10,6 +10,7 @@
 *.idb
 *.ilk
 *.old
+project.uvguix.*
 build
 Debug
 documentation/html
