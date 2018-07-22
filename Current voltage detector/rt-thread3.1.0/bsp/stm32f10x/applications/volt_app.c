@@ -152,8 +152,8 @@ void master_thread_entry(void *parameter)
     wireless_putstring("\r\nApplication Author : layiketang.");
     wireless_putstring("\r\nPCBLAYOUT   Author : xiaoluobo.");
     wireless_putstring("\r\n           College : DHKXJSXY.\r\n\r\n");
-	rt_thread_delay(rt_tick_from_millisecond(50));
     rt_volt_app_init();
+    rt_thread_delay(rt_tick_from_millisecond(50));
 }
 
 int master_init(void)

@@ -20,7 +20,6 @@
 #include "stm32f10x_fsmc.h"
 #include "board.h"
 #include "usart.h"
-#include "adc.h"
 
 /**
  * @addtogroup STM32
@@ -183,7 +182,6 @@ void rt_hw_board_init(void)
 #endif
 
     rt_hw_usart_init();
-    rt_hw_adc_init();
     rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
 
 #ifdef RT_USING_COMPONENTS_INIT

@@ -531,6 +531,9 @@ char *rt_strdup(const char *s)
     return tmp;
 }
 RTM_EXPORT(rt_strdup);
+#ifdef __CC_ARM
+char *strdup(const char *s) __attribute__((alias("rt_strdup")));
+#endif
 #endif
 
 /**
@@ -538,15 +541,11 @@ RTM_EXPORT(rt_strdup);
  */
 void rt_show_version(void)
 {
-    rt_kprintf("\n\n \\ | /\n");
+    rt_kprintf("\n \\ | /\n");
     rt_kprintf("- RT -     Thread Operating System\n");
     rt_kprintf(" / | \\     %d.%d.%d build %s\n",
                RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     rt_kprintf(" 2006 - 2018 Copyright by rt-thread team\n");
-
-    rt_kprintf("\r\nApplication Author : layiketang.");
-    rt_kprintf("\r\nPCBLAYOUT   Author : xiaoluobo.");
-    rt_kprintf("\r\n           College : DHKXJSXY.\r\n\r\n");
 }
 RTM_EXPORT(rt_show_version);
 

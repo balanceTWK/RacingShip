@@ -430,6 +430,11 @@
               <FileType>1</FileType>
               <FilePath>.\drivers\adc.c</FilePath>
             </File>
+            <File>
+              <FileName>pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\pwm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
