@@ -406,11 +406,6 @@
               <FilePath>drivers\stm32f10x_it.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers\led.c</FilePath>
-            </File>
-            <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>drivers\usart.c</FilePath>
@@ -439,6 +434,11 @@
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>beep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\beep.c</FilePath>
             </File>
           </Files>
         </Group>

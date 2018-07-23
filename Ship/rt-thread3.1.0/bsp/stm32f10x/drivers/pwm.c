@@ -2,7 +2,10 @@
 #include <rtdevice.h>
 #include <board.h>
 #include "pwm.h"
+#include "beep.h"
 //PWM 频率=72*10^6/(TIM_Period+1)/(TIM_Prescaler+1)=xxxHz
+
+#define DebugBeep beep(50,2);
 
 void stm32_tim1_init()//50HZ-->适用于舵机控制. 750为1.5ms中间值. 0.5ms-2.5ms ==> 250-1250 .
 {
@@ -158,11 +161,12 @@ void  rt_hw_pwm_init(void)
 }
 INIT_BOARD_EXPORT(rt_hw_pwm_init);
 
-void pwm(rt_uint8_t ch, rt_uint16_t compare)
+void pwm(rt_uint8_t ch, rt_uint16_t compare)//控制PWM输出的占空比
 {
     if (compare > 9999)
     {
         rt_kprintf("The range of the second parameter is between 0-9999 .");
+        DebugBeep
     }
     else
     {

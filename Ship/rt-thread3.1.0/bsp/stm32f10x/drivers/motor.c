@@ -2,6 +2,7 @@
 #include <rtdevice.h>
 #include <board.h>
 #include "pwm.h"
+#include "motor.h"
 
 #define motor_rcc                   RCC_APB2Periph_GPIOB
 #define motor_gpio_port             GPIOB
