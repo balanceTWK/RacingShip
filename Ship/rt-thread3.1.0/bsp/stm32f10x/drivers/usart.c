@@ -23,35 +23,15 @@
 #include "board.h"
 #include <rtdevice.h>
 
-///* USART1 */
-//#define UART1_GPIO_TX        GPIO_Pin_9
-//#define UART1_GPIO_RX        GPIO_Pin_10
-//#define UART1_GPIO           GPIOA
-
 /* USART1 */
 #define UART1_GPIO_TX        GPIO_Pin_6
 #define UART1_GPIO_RX        GPIO_Pin_7
 #define UART1_GPIO           GPIOB
 
-///* USART2 */
-//#define UART2_GPIO_TX        GPIO_Pin_2
-//#define UART2_GPIO_RX        GPIO_Pin_3
-//#define UART2_GPIO           GPIOA
-
-///* USART3_REMAP[1:0] = 00 */
-//#define UART3_GPIO_TX        GPIO_Pin_10
-//#define UART3_GPIO_RX        GPIO_Pin_11
-//#define UART3_GPIO           GPIOB
 /* USART3_REMAP[1:0] = 00 */
 #define UART3_GPIO_TX        GPIO_Pin_10
 #define UART3_GPIO_RX        GPIO_Pin_11
 #define UART3_GPIO           GPIOC
-
-///* USART4 */
-//#define UART4_GPIO_TX        GPIO_Pin_10
-//#define UART4_GPIO_RX        GPIO_Pin_11
-//#define UART4_GPIO           GPIOC
-
 
 /* STM32 uart driver */
 struct stm32_uart
