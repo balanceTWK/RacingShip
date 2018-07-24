@@ -19,7 +19,7 @@
 
 #ifdef RT_USING_PIN
 
-#define STM32F10X_PIN_NUMBERS 100 //[48, 64, 100, 144 ]
+#define STM32F10X_PIN_NUMBERS 144 //[48, 64, 100, 144 ]
 
 #define __STM32_PIN(index, rcc, gpio, gpio_index) { 0, RCC_##rcc##Periph_GPIO##gpio, GPIO##gpio, GPIO_Pin_##gpio_index, GPIO_PortSourceGPIO##gpio, GPIO_PinSource##gpio_index}
 #define __STM32_PIN_DEFAULT {-1, 0, 0, 0, 0, 0}

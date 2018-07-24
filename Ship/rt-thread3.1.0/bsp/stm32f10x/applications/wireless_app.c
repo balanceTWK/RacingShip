@@ -1,6 +1,5 @@
 #include <rthw.h>
 #include <rtthread.h>
-
 #include "wireless_app.h"
 
 /* 串口接收事件标志 */
@@ -82,6 +81,5 @@ rt_err_t wireless_open(const char *name)
     }
     /* 初始化事件对象 */
     rt_event_init(&wirelessevent, "wireless", RT_IPC_FLAG_FIFO);
-
     return RT_EOK;
 }

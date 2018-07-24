@@ -400,6 +400,11 @@
               <FileType>1</FileType>
               <FilePath>.\applications\master_app.c</FilePath>
             </File>
+            <File>
+              <FileName>control_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\control_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

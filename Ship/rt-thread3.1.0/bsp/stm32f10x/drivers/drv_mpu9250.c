@@ -5,8 +5,6 @@
 #include "drv_i2c.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include "inv_mpu.h"
-//#include "app_wirelessuart.h"
-//#include "master_thread.h"
 
 #define MPU9250_I2CBUS_NAME  "i2c1"
 
@@ -17,7 +15,6 @@
 #endif
 
 static struct rt_i2c_bus_device *mpu9250_i2c_bus;
-
 
 rt_err_t mpu_dmp_write_Len(rt_uint8_t addr, rt_uint8_t reg, rt_uint8_t len, rt_uint8_t *date) //mpu_dmp 移植使用
 {
@@ -256,7 +253,6 @@ rt_err_t mpu9250_get_gyroscope(rt_int16_t *gx, rt_int16_t *gy, rt_int16_t *gz)
         *gx = ((rt_uint16_t)buf[0] << 8) | buf[1];
         *gy = ((rt_uint16_t)buf[2] << 8) | buf[3];
         *gz = ((rt_uint16_t)buf[4] << 8) | buf[5];
-
         return RT_EOK;
     }
     else
@@ -274,7 +270,6 @@ rt_err_t mpu9250_get_accelerometer(rt_int16_t *ax, rt_int16_t *ay, rt_int16_t *a
         *ax = ((rt_uint16_t)buf[0] << 8) | buf[1];
         *ay = ((rt_uint16_t)buf[2] << 8) | buf[3];
         *az = ((rt_uint16_t)buf[4] << 8) | buf[5];
-
         return RT_EOK;
     }
     else
@@ -292,7 +287,6 @@ rt_err_t mpu9250_get_magnetometer(rt_int16_t *mx, rt_int16_t *my, rt_int16_t *mz
         *mx = ((rt_uint16_t)buf[0] << 8) | buf[1];
         *my = ((rt_uint16_t)buf[2] << 8) | buf[3];
         *mz = ((rt_uint16_t)buf[4] << 8) | buf[5];
-
         return RT_EOK;
     }
     else
@@ -301,107 +295,18 @@ rt_err_t mpu9250_get_magnetometer(rt_int16_t *mx, rt_int16_t *my, rt_int16_t *mz
     }
 }
 
-////传送数据给匿名四轴上位机软件(V2.6版本)
-////fun:功能字. 0X01~0X1C
-////data:数据缓存区,最多28字节!!
-////len:data区有效数据个数
-//void usart1_niming_report(rt_uint8_t fun, rt_uint8_t *data, rt_uint8_t len)
-//{
-////    rt_uint8_t send_buf[32];
-////    rt_uint8_t i;
-////    if (len > 28)return; //最多28字节数据
-////    send_buf[len + 3] = 0;  //校验数置零
-////    send_buf[0] = 0XAA; //帧头
-////    send_buf[1] = 0XAA; //帧头
-////    send_buf[2] = fun;  //功能字
-////    send_buf[3] = len;  //数据长度
-////    for (i = 0; i < len; i++)send_buf[4 + i] = data[i];         //复制数据
-////    for (i = 0; i < len + 4; i++)send_buf[len + 4] += send_buf[i];  //计算校验和
-////    for (i = 0; i < len + 5; i++)wireless_putchar(send_buf[i]); //发送数据到串口1
-//}
-////发送加速度传感器数据+陀螺仪数据(传感器帧)
-////aacx,aacy,aacz:x,y,z三个方向上面的加速度值
-////gyrox,gyroy,gyroz:x,y,z三个方向上面的陀螺仪值
-//void mpu6050_send_data(short aacx, short aacy, short aacz, short gyrox, short gyroy, short gyroz)
-//{
-//    rt_uint8_t tbuf[18];
-//    tbuf[0] = (aacx >> 8) & 0XFF;
-//    tbuf[1] = aacx & 0XFF;
-//    tbuf[2] = (aacy >> 8) & 0XFF;
-//    tbuf[3] = aacy & 0XFF;
-//    tbuf[4] = (aacz >> 8) & 0XFF;
-//    tbuf[5] = aacz & 0XFF;
-//    tbuf[6] = (gyrox >> 8) & 0XFF;
-//    tbuf[7] = gyrox & 0XFF;
-//    tbuf[8] = (gyroy >> 8) & 0XFF;
-//    tbuf[9] = gyroy & 0XFF;
-//    tbuf[10] = (gyroz >> 8) & 0XFF;
-//    tbuf[11] = gyroz & 0XFF;
-//    tbuf[12] = 0; //因为开启MPL后,无法直接读取磁力计数据,所以这里直接屏蔽掉.用0替代.
-//    tbuf[13] = 0;
-//    tbuf[14] = 0;
-//    tbuf[15] = 0;
-//    tbuf[16] = 0;
-//    tbuf[17] = 0;
-//    usart1_niming_report(0X02, tbuf, 18); //传感器帧,0X02
-//}
-////通过串口1上报结算后的姿态数据给电脑(状态帧)
-////roll:横滚角.单位0.01度。 -18000 -> 18000 对应 -180.00  ->  180.00度
-////pitch:俯仰角.单位 0.01度。-9000 - 9000 对应 -90.00 -> 90.00 度
-////yaw:航向角.单位为0.1度 0 -> 3600  对应 0 -> 360.0度
-////csb:超声波高度,单位:cm
-////prs:气压计高度,单位:mm
-//void usart1_report_imu(short roll, short pitch, short yaw, short csb, int prs)
-//{
-//    rt_uint8_t tbuf[12];
-//    tbuf[0] = (roll >> 8) & 0XFF;
-//    tbuf[1] = roll & 0XFF;
-//    tbuf[2] = (pitch >> 8) & 0XFF;
-//    tbuf[3] = pitch & 0XFF;
-//    tbuf[4] = (yaw >> 8) & 0XFF;
-//    tbuf[5] = yaw & 0XFF;
-//    tbuf[6] = (csb >> 8) & 0XFF;
-//    tbuf[7] = csb & 0XFF;
-//    tbuf[8] = (prs >> 24) & 0XFF;
-//    tbuf[9] = (prs >> 16) & 0XFF;
-//    tbuf[10] = (prs >> 8) & 0XFF;
-//    tbuf[11] = prs & 0XFF;
-//    usart1_niming_report(0X01, tbuf, 12); //状态帧,0X01
-//}
-
-//void mpu9250_thread_entry(void *parameter)
-//{
-//    float pitch, roll, yaw;           //欧拉角
-//    while (1)
-//    {
-//        if (mpu_mpl_get_data(&pitch, &roll, &yaw) == 0)
-//        {
-//						rt_mutex_take(&Mpu9250Mutex, RT_WAITING_FOREVER);
-//						mypitch=pitch;
-//						myroll=roll;
-//						myyaw=yaw;
-////            usart1_report_imu((int)(roll * 100), (int)(pitch * 100), (int)(yaw * 100), 0, 0);
-//						rt_mutex_release(&Mpu9250Mutex);
-//        }
-//        rt_thread_delay(rt_tick_from_millisecond(20));
-//    }
-//}
-
 #include "inv_mpu.h"
 int mpu9250_init(void)
 {
     rt_uint8_t res;
     rt_device_t dev;
     rt_thread_delay(rt_tick_from_millisecond(100));
-
     dev = rt_device_find(MPU9250_I2CBUS_NAME);
-
     if (dev == RT_NULL)
     {
         MPUDEBUG("can't find mpu9250 %s device\r\n", MPU9250_I2CBUS_NAME);
         return -RT_ERROR;
     }
-
     if (rt_device_open(dev, RT_DEVICE_OFLAG_RDWR) != RT_EOK)
     {
         MPUDEBUG("can't opend mpu9250 %s device\r\n", MPU9250_I2CBUS_NAME);
@@ -409,28 +314,13 @@ int mpu9250_init(void)
     }
     //获取i2c设备句柄
     mpu9250_i2c_bus = (struct rt_i2c_bus_device *)dev;
-
     MPUDEBUG("mpu_dmp_init is runing !\r\n");
-
     while (mpu_dmp_init())
     {
         MPUDEBUG("mpu_dmp_init waiting  ! 0x%02x\r\n", res);
         rt_thread_delay(rt_tick_from_millisecond(100));
     }
     MPUDEBUG("mpu_dmp_init is ok !\r\n");
-
-//    rt_thread_t tid;
-//    /* 创建 MPU9250 线程 *//////////////////////////////////
-//    tid = rt_thread_create("mpu9250",
-//                           mpu9250_thread_entry,
-//                           RT_NULL,
-//                           2048,
-//                           5,
-//                           20);
-//    /* 创建成功则启动线程 */
-//    if (tid != RT_NULL)
-//        rt_thread_startup(tid);
-
     return RT_EOK;
-
 }
+INIT_APP_EXPORT(mpu9250_init);
