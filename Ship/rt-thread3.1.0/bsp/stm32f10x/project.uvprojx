@@ -390,6 +390,16 @@
               <FileType>1</FileType>
               <FilePath>applications\startup.c</FilePath>
             </File>
+            <File>
+              <FileName>wireless_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\wireless_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>master_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\master_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -439,6 +449,11 @@
               <FileName>beep.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\beep.c</FilePath>
+            </File>
+            <File>
+              <FileName>read_io_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\read_io_port.c</FilePath>
             </File>
           </Files>
         </Group>

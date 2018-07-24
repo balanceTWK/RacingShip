@@ -451,7 +451,7 @@ struct rt_pin_irq_hdr pin_irq_hdr_tab[] =
     {-1, 0, RT_NULL, RT_NULL},
     {-1, 0, RT_NULL, RT_NULL},
     {-1, 0, RT_NULL, RT_NULL},
-    {-1, 0, RT_NULL, RT_NULL},                  
+    {-1, 0, RT_NULL, RT_NULL},
 };
 
 #define ITEM_NUM(items) sizeof(items)/sizeof(items[0])
