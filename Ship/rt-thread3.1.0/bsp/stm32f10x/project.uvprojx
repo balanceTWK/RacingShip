@@ -405,6 +405,11 @@
               <FileType>1</FileType>
               <FilePath>.\applications\control_app.c</FilePath>
             </File>
+            <File>
+              <FileName>control_function.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\control_function.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -464,6 +469,11 @@
               <FileName>drv_mpu9250.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\drv_mpu9250.c</FilePath>
+            </File>
+            <File>
+              <FileName>steeringengine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\steeringengine.c</FilePath>
             </File>
           </Files>
         </Group>

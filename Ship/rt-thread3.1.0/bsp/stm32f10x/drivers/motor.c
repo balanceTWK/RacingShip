@@ -38,7 +38,7 @@ void  motor1_control(rt_uint8_t direction,rt_uint16_t pwmCompare)
         GPIO_ResetBits(motor_gpio_port, motor1_in2);
         GPIO_SetBits(motor_gpio_port, motor1_in1);
     }
-    pwm(1,pwmCompare);
+    pwm(12,pwmCompare);
 }
 
 void  motor2_control(rt_uint8_t direction,rt_uint16_t pwmCompare)
@@ -53,5 +53,5 @@ void  motor2_control(rt_uint8_t direction,rt_uint16_t pwmCompare)
         GPIO_ResetBits(motor_gpio_port, motor2_in2);
         GPIO_SetBits(motor_gpio_port, motor2_in1);
     }
-    pwm(2,pwmCompare);
+    pwm(11,pwmCompare);
 }

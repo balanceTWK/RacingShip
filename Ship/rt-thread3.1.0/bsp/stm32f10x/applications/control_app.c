@@ -1,12 +1,14 @@
 #include <rthw.h>
 #include <rtthread.h>
 #include "control_app.h"
-#include "inv_mpu.h"
+#include "steeringengine.h"
+#include "control_function.h"
 
 rt_uint16_t debugControl=0;
-void control_thread_entry(void *parameter)
+void control_thread_entry(void *parameter)//根据反馈,控制方向和速度.
 {
     float pitch, roll, yaw;           //欧拉角
+    rt_uint32_t feedback;
     while (1)
     {
         if(debugControl==0)
@@ -15,20 +17,18 @@ void control_thread_entry(void *parameter)
         }
         else
         {
-            if (mpu_mpl_get_data(&pitch, &roll, &yaw) == 0)
+            feedback=get_infraredProbe_offset();
+            if(feedback!=0)
             {
-                rt_kprintf("mpu9250 get times : %d, pitch:%d, roll:%d, yaw:%d \n",debugControl,(rt_int16_t)(pitch*100), (rt_int16_t)(roll*100), (rt_int16_t)(yaw*100));
+                steeringEngine_1(feedback*40+210);
             }
-            else
-            {
-                rt_kprintf("mpu9250 miss times : %d\n",debugControl);
-            }
+            rt_kprintf("control thread times : %d\n",debugControl);
             debugControl++;
             if(debugControl>1000)
             {
                 debugControl=0;
             }
-            rt_thread_delay(rt_tick_from_millisecond(20));
+            rt_thread_delay(rt_tick_from_millisecond(10));
         }
     }
 }

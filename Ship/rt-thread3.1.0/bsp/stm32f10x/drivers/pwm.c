@@ -167,7 +167,7 @@ void pwm(rt_uint8_t ch, rt_uint16_t compare)//控制PWM输出的占空比
 {
     if (compare > 9999)
     {
-        DebugPrintf("\nThe range of the second parameter is between 0-9999 .\n");
+        DebugPrintf("\nThe range of the second parameter is between 0-9999 .(pwm)\n");
         DebugBeep
     }
     else
@@ -175,40 +175,40 @@ void pwm(rt_uint8_t ch, rt_uint16_t compare)//控制PWM输出的占空比
         switch (ch)
         {
         case 1:
-            TIM_SetCompare1(TIM3, compare);
+            TIM_SetCompare4(TIM1, compare);
             break;
         case 2:
-            TIM_SetCompare2(TIM3, compare);
-            break;
-        case 3:
-            TIM_SetCompare3(TIM3, compare);
-            break;
-        case 4:
-            TIM_SetCompare4(TIM3, compare);
-            break;
-        case 5:
-            TIM_SetCompare4(TIM2, compare);
-            break;
-        case 6:
-            TIM_SetCompare3(TIM2, compare);
-            break;
-        case 7:
-            TIM_SetCompare2(TIM2, compare);
-            break;
-        case 8:
-            TIM_SetCompare1(TIM2, compare);
-            break;
-        case 9:
-            TIM_SetCompare1(TIM1, compare);
-            break;
-        case 10:
-            TIM_SetCompare2(TIM1, compare);
-            break;
-        case 11:
             TIM_SetCompare3(TIM1, compare);
             break;
+        case 3:
+            TIM_SetCompare2(TIM1, compare);
+            break;
+        case 4:
+            TIM_SetCompare1(TIM1, compare);
+            break;
+        case 5:
+            TIM_SetCompare1(TIM2, compare);
+            break;
+        case 6:
+            TIM_SetCompare2(TIM2, compare);
+            break;
+        case 7:
+            TIM_SetCompare3(TIM2, compare);
+            break;
+        case 8:
+            TIM_SetCompare4(TIM2, compare);
+            break;
+        case 9:
+            TIM_SetCompare4(TIM3, compare);
+            break;
+        case 10:
+            TIM_SetCompare3(TIM3, compare);
+            break;
+        case 11:
+            TIM_SetCompare2(TIM3, compare);
+            break;
         case 12:
-            TIM_SetCompare4(TIM1, compare);
+            TIM_SetCompare1(TIM3, compare);
             break;
         default:
             rt_kprintf("The range of the first parameter is between 1-12 .");
