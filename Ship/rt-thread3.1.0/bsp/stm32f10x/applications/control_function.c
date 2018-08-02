@@ -15,8 +15,8 @@ rt_uint32_t get_26infraredProbe_offset(void)//26个远程红外探头,计算船体偏移量.
     count = 0;
     sum = 0 ;
 
-    port_E = readPort_E();
-    port_F = readPort_F();
+    port_E = (0XFFFF)^readPort_E();
+    port_F = (0XFFFF)^readPort_F();
 
     frontProbe = (port_F & 0x1FFF) + ((port_E & 0x1FFF) << 13);
     if (frontProbe == 0)
@@ -35,7 +35,7 @@ rt_uint32_t get_26infraredProbe_offset(void)//26个远程红外探头,计算船体偏移量.
     return sum / count;
 }
 
-rt_uint32_t get_9infraredProbe_offset(void)//9个近程红外探头,计算船体偏移量.此函数优先级大于get_26infraredProbe_offset.
+rt_uint32_t get_9infraredProbe_offset(void)//9个近程红外探头,计算船体偏移量.此函数优先级应当大于get_26infraredProbe_offset.
 {
     count = 0;
     sum = 0 ;
@@ -45,7 +45,7 @@ rt_uint32_t get_9infraredProbe_offset(void)//9个近程红外探头,计算船体偏移量.此函
     closeProbe = (port_D & 0x01FF);
     if(closeProbe&0x000001C0)
     {
-        if((closeProbe&0x000001C0)==0x000001C0)//3位红外探头
+        if(((closeProbe&0x000001C0)==0x000001C0)||((closeProbe&0x000001C0)==0x00000080))//3位红外探头
         {
             return 0x0000FFFF;//返回全F 说明舵机应该调为中间值.
         }

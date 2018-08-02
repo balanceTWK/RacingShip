@@ -55,3 +55,6 @@ void  motor2_control(rt_uint8_t direction,rt_uint16_t pwmCompare)
     }
     pwm(11,pwmCompare);
 }
+
+FINSH_FUNCTION_EXPORT(motor1_control, example: motor1_control(1, 4000));
+FINSH_FUNCTION_EXPORT(motor2_control, example: motor2_control(1, 4000));

@@ -3,6 +3,8 @@
 #include "master_app.h"
 #include "wireless_app.h"
 #include "control_app.h"
+#include "beep.h"
+#include "pwm.h"
 
 void master_thread_entry(void *parameter)
 {
@@ -16,6 +18,7 @@ void master_thread_entry(void *parameter)
     wireless_putstring("\r\nPCBLAYOUT   Author : xiaoluobo.");
     wireless_putstring("\r\n           College : DHKXJSXY.\r\n\r\n");
     rt_thread_delay(rt_tick_from_millisecond(50));
+    
     control_app_init();
 }
 

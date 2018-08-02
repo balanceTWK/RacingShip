@@ -9,13 +9,16 @@ void  rt_hw_portDEFG_init(void)
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG, ENABLE);
 
-    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPD;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_All;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    
     GPIO_Init(GPIOE, &GPIO_InitStructure);
     GPIO_Init(GPIOF, &GPIO_InitStructure);
     GPIO_Init(GPIOG, &GPIO_InitStructure);
+    
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPD;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 }
 INIT_BOARD_EXPORT(rt_hw_portDEFG_init);
 

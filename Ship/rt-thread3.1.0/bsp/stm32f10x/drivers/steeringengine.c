@@ -10,7 +10,7 @@
 
 void steeringEngine_1(rt_uint16_t compare)
 {
-    if((compare>=250)&&(compare<=1250))
+    if((compare>=500)&&(compare<=1000))
     {
         pwm(1,compare);
     }
